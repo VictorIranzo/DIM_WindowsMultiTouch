@@ -26,5 +26,69 @@ namespace ListEvents
         {
             this.InitializeComponent();
         }
+
+        private void Image_PointerCanceled(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerCanceled) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerCaptureLost) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerEntered) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerExited) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerMoved) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerPressed) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerReleased) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
+
+        private void Image_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            double pointerXPosition = e.GetCurrentPoint(this.image).Position.X;
+            double pointerYPosition = e.GetCurrentPoint(this.image).Position.Y;
+
+            this.listView.Items.Add($"(PointerWheelChanged) X: {pointerXPosition} Y: {pointerYPosition}");
+        }
     }
 }
