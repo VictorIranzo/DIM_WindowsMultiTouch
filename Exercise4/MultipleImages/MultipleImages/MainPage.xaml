@@ -8,7 +8,22 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Canvas>
+        <Image x:Name="image1" Height="150" Width="150" Canvas.Top="100" Canvas.Left="200" ManipulationMode="All" Source="/Assets/Square150x150Logo.scale-200.png" ManipulationDelta="Image_ManipulationDelta"  >
+            <Image.RenderTransform>
+                <CompositeTransform/>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="image2" Height="150" Width="150" Canvas.Top="300" Canvas.Left="200" ManipulationMode="All" Source="/Assets/Square150x150Logo.scale-200.png" ManipulationDelta="Image_ManipulationDelta"  >
+            <Image.RenderTransform>
+                <CompositeTransform/>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="image3" Height="150" Width="150" Canvas.Top="500" Canvas.Left="200" ManipulationMode="All" Source="/Assets/Square150x150Logo.scale-200.png" ManipulationDelta="Image_ManipulationDelta"  >
+            <Image.RenderTransform>
+                <CompositeTransform/>
+            </Image.RenderTransform>
+        </Image>
+    </Canvas>
 
-    </Grid>
 </Page>
