@@ -25,6 +25,30 @@ namespace ScaleAndRotateImage
         public MainPage()
         {
             this.InitializeComponent();
+
+            this.image.ManipulationMode = ManipulationModes.Scale | ManipulationModes.Rotate;
+        }
+
+        private void Image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            Image image = e.OriginalSource as Image;
+
+            // Rotate the Rectangle.
+            CompositeTransform compositeTransform = new CompositeTransform()
+            {
+                Rotation = e.Delta.Rotation,
+                CenterX = image.CenterPoint.X,
+                CenterY = image.CenterPoint.Y,
+                ScaleX = e.Delta.Scale,
+                ScaleY = e.Delta.Scale,
+            };
+
+            this.image.RenderTransform = compositeTransform;
+        }
+
+        private void Image_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            this.listView.Items.Add($"Pressed X: {e.GetCurrentPoint(this.image).Position.X} {e.GetCurrentPoint(this.image).Position.Y}");
         }
     }
 }

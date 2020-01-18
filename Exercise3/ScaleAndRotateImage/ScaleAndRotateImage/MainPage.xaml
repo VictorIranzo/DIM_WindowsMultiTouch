@@ -9,6 +9,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
 
+        <Image x:Name="image" Grid.Column="0" Grid.Row="0" Source="/Assets/SplashScreen.png" ManipulationDelta="Image_ManipulationDelta" PointerPressed="Image_PointerPressed" />
+        <ListView Grid.Column="0" Grid.Row="1" x:Name="listView"/>
     </Grid>
 </Page>
