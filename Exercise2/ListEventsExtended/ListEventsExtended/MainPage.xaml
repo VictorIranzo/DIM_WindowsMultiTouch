@@ -9,6 +9,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="image" Grid.Column="0" Grid.Row="0" PointerCanceled="Image_PointerCanceled" PointerCaptureLost="Image_PointerCaptureLost" PointerEntered="Image_PointerEntered" PointerExited="Image_PointerExited" PointerMoved="Image_PointerMoved" PointerPressed="Image_PointerPressed" PointerReleased="Image_PointerReleased" PointerWheelChanged="Image_PointerWheelChanged" Source="/Assets/SplashScreen.png"/>
+        <ListView x:Name="listView" Grid.Column="0" Grid.Row="1" />
 
     </Grid>
 </Page>
