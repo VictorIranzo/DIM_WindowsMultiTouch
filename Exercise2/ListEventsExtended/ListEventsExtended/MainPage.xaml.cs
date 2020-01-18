@@ -90,5 +90,20 @@ namespace ListEventsExtended
 
             this.listView.Items.Add($"(PointerWheelChanged) X: {pointerXPosition} Y: {pointerYPosition}");
         }
+
+        private void Image_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            this.image.Opacity -= 0.1;
+        }
+
+        private void Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            this.image.Opacity = 1;
+        }
+
+        private void Image_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            this.listView.Items.Clear();
+        }
     }
 }
