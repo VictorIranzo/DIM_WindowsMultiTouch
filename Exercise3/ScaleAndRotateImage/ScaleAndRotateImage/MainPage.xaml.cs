@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -31,24 +32,28 @@ namespace ScaleAndRotateImage
 
         private void Image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            Image image = e.OriginalSource as Image;
+            FrameworkElement elem = sender as FrameworkElement;
 
-            // Rotate the Rectangle.
-            CompositeTransform compositeTransform = new CompositeTransform()
-            {
-                Rotation = e.Delta.Rotation,
-                CenterX = image.CenterPoint.X,
-                CenterY = image.CenterPoint.Y,
-                ScaleX = e.Delta.Scale,
-                ScaleY = e.Delta.Scale,
-            };
+            CompositeTransform transform = elem.RenderTransform as CompositeTransform;
+            transform.Rotation += e.Delta.Rotation;
+            transform.CenterX = elem.Width / 2;
+            transform.CenterY = elem.Height / 2;
+            transform.ScaleX *= e.Delta.Scale;
+            transform.ScaleY *= e.Delta.Scale;
 
-            this.image.RenderTransform = compositeTransform;
-        }
+            ////Windows.Foundation.Point pointOfElement = elem.TransformToVisual(Window.Current.Content).TransformPoint(new Windows.Foundation.Point(0, 0));
+            ////transform.CenterX = pointOfElement.X + 75;
+            ////transform.CenterY = pointOfElement.Y + 75;
+            ////transform.CenterX = Canvas.GetLeft(elem);
+            ////transform.CenterY = Canvas.GetTop(elem);
+            ////CompositeTransform compositeTransform = new CompositeTransform()
+            ////{
+            ////    Rotation = e.Delta.Rotation,
+            ////    ScaleX = e.Delta.Scale,
+            ////    ScaleY = e.Delta.Scale,
+            ////};
 
-        private void Image_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            this.listView.Items.Add($"Pressed X: {e.GetCurrentPoint(this.image).Position.X} {e.GetCurrentPoint(this.image).Position.Y}");
+            ////elem.RenderTransform = compositeTransform;
         }
     }
 }
