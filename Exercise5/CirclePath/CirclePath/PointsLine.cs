@@ -1,18 +1,11 @@
 ﻿namespace CirclePath
 {
-    using System.Collections.Generic;
-    using Windows.Foundation;
+    using Windows.UI.Xaml.Shapes;
 
     public class PointsLine
     {
-        private List<Point> points;
+        public Polyline Line { get; set; }
 
-        public List<Point> Points
-        {
-            get
-            {
-                return this.points ?? (this.points = new List<Point>());
-            }
-        }
+        public Ellipse InitialCircle { get; set; }
     }
 }

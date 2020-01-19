@@ -17,7 +17,7 @@
 
         private List<Ellipse> circles = new List<Ellipse>();
 
-        private Dictionary<uint, Polyline> lines = new Dictionary<uint, Polyline>();
+        private Dictionary<uint, PointsLine> lines = new Dictionary<uint, PointsLine>();
 
         public MainPage()
         {
@@ -71,13 +71,17 @@
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (this.lines.TryGetValue(e.Pointer.PointerId, out Polyline line))
+            if (this.lines.TryGetValue(e.Pointer.PointerId, out PointsLine line))
             {
                 Point touchPoint = e.GetCurrentPoint(this.canvas).Position;
+                Point lastPoint = line.Line.Points.Last();
 
-                line.Points.Add(touchPoint);
+                if (touchPoint.CalculateDistanceToPoint(lastPoint) < 10)
+                {
+                    return;
+                }
 
-                canvas.InvalidateArrange();
+                line.Line.Points.Add(touchPoint);
             }
         }
 
@@ -85,31 +89,56 @@
         {
             Point touchPoint = e.GetCurrentPoint(this.canvas).Position;
 
-            if (!this.IsInTouchWithCircles(touchPoint))
+            if (!this.IsInTouchWithCircles(touchPoint, out Ellipse selectedEllipse))
             {
                 return;
             }
 
-            Polyline newLine = new Polyline()
+            PointsLine newLine = new PointsLine()
             {
-                Stroke = new SolidColorBrush(Colors.White),
-                StrokeThickness = 5,
-                FillRule = FillRule.EvenOdd,
+                Line = new Polyline()
+                {
+                    Stroke = new SolidColorBrush(Colors.Wheat),
+                    StrokeThickness = 5,
+                    FillRule = FillRule.EvenOdd,
+                    StrokeLineJoin = PenLineJoin.Round
+                },
+                InitialCircle = selectedEllipse
             };
 
-            newLine.Points.Add(touchPoint);
+            newLine.Line.Points.Add(touchPoint);
 
             this.lines.Add(e.Pointer.PointerId, newLine);
+
+            canvas.Children.Add(newLine.Line);
         }
 
-        private bool IsInTouchWithCircles(Point touchPoint)
+        private bool IsInTouchWithCircles(Point touchPoint, out Ellipse selectedEllipse)
         {
-            return this.circles.Any(c => c.Contains(touchPoint));
+            selectedEllipse = this.circles.FirstOrDefault(c => c.Contains(touchPoint));
+
+            return selectedEllipse != null;
         }
 
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            this.lines.Remove(e.Pointer.PointerId);
+            Point touchPoint = e.GetCurrentPoint(this.canvas).Position;
+
+            if (this.lines.TryGetValue(e.Pointer.PointerId, out PointsLine line))
+            {
+                this.lines.Remove(e.Pointer.PointerId);
+                this.canvas.Children.Remove(line.Line);
+
+                if (this.IsInTouchWithCircles(touchPoint, out Ellipse selectedEllipse))
+                {
+                    if (selectedEllipse.Fill == line.InitialCircle.Fill
+                        && selectedEllipse != line.InitialCircle)
+                    {
+                        this.canvas.Children.Remove(line.InitialCircle);
+                        this.canvas.Children.Remove(selectedEllipse);
+                    }
+                }
+            }
         }
     }
 }
