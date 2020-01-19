@@ -90,5 +90,10 @@ namespace ListEvents
 
             this.listView.Items.Add($"(PointerWheelChanged) X: {pointerXPosition} Y: {pointerYPosition}");
         }
+
+        private void Image_DragEnter(object sender, DragEventArgs e)
+        {
+            this.listView.Items.Add($"(DragEntered)");
+        }
     }
 }

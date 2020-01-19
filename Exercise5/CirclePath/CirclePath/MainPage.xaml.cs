@@ -17,7 +17,7 @@
 
         private List<Ellipse> circles = new List<Ellipse>();
 
-        private Dictionary<uint, PointsLine> lines = new Dictionary<uint, PointsLine>();
+        private Dictionary<uint, Polyline> lines = new Dictionary<uint, Polyline>();
 
         public MainPage()
         {
@@ -71,30 +71,17 @@
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (this.lines.TryGetValue(e.Pointer.PointerId, out PointsLine line))
+            if (this.lines.TryGetValue(e.Pointer.PointerId, out Polyline line))
             {
                 Point touchPoint = e.GetCurrentPoint(this.canvas).Position;
-                Point lastPoint = line.Points.Last();
-
-                Line drawLine = new Line()
-                {
-                    X1 = lastPoint.X,
-                    Y1 = lastPoint.Y,
-                    X2 = touchPoint.X,
-                    Y2 = touchPoint.Y,
-                    Fill = new SolidColorBrush(Colors.White),
-                };
-
-                Canvas.SetTop(drawLine, 0);
-                Canvas.SetLeft(drawLine, 0);
-
-                canvas.Children.Add(drawLine);
 
                 line.Points.Add(touchPoint);
+
+                canvas.InvalidateArrange();
             }
         }
 
-        private void Canvas_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             Point touchPoint = e.GetCurrentPoint(this.canvas).Position;
 
@@ -103,7 +90,13 @@
                 return;
             }
 
-            PointsLine newLine = new PointsLine();
+            Polyline newLine = new Polyline()
+            {
+                Stroke = new SolidColorBrush(Colors.White),
+                StrokeThickness = 5,
+                FillRule = FillRule.EvenOdd,
+            };
+
             newLine.Points.Add(touchPoint);
 
             this.lines.Add(e.Pointer.PointerId, newLine);
@@ -114,7 +107,7 @@
             return this.circles.Any(c => c.Contains(touchPoint));
         }
 
-        private void Canvas_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             this.lines.Remove(e.Pointer.PointerId);
         }
