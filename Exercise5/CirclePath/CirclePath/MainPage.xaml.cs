@@ -158,13 +158,13 @@
                         this.canvas.Children.Remove(selectedEllipse);
 
                         this.Score += 10 * (this.lines.Keys.Count + 1);
-
-                        this.score.Text = $"Score: {this.Score}";
                     }
                     else
                     {
                         this.Score -= 10;
                     }
+
+                    this.score.Text = $"Score: {this.Score}";
                 }
             }
         }
