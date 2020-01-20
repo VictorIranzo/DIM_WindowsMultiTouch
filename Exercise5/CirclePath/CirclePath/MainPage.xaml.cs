@@ -22,8 +22,14 @@
         public MainPage()
         {
             this.InitializeComponent();
+
+            this.Score = 0;
         }
 
+        public int Score
+        {
+            get; set;
+        }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -38,6 +44,7 @@
         private void Refresh()
         {
             this.canvas.Children.Clear();
+            this.lines.Clear();
             this.circles.Clear();
 
             for (int i = 0; i < 3; i++)
@@ -71,6 +78,11 @@
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            if (random.NextDouble() > 0.5)
+            {
+                return;
+            }
+
             if (this.lines.TryGetValue(e.Pointer.PointerId, out PointsLine line))
             {
                 Point touchPoint = e.GetCurrentPoint(this.canvas).Position;
@@ -82,6 +94,8 @@
                 }
 
                 line.Line.Points.Add(touchPoint);
+
+                this.canvas.UpdateLayout();
             }
         }
 
@@ -108,6 +122,11 @@
 
             newLine.Line.Points.Add(touchPoint);
 
+            if (this.lines.ContainsKey(e.Pointer.PointerId))
+            {
+                this.lines.Remove(e.Pointer.PointerId);
+            }
+
             this.lines.Add(e.Pointer.PointerId, newLine);
 
             canvas.Children.Add(newLine.Line);
@@ -128,6 +147,7 @@
             {
                 this.lines.Remove(e.Pointer.PointerId);
                 this.canvas.Children.Remove(line.Line);
+                this.canvas.UpdateLayout();
 
                 if (this.IsInTouchWithCircles(touchPoint, out Ellipse selectedEllipse))
                 {
@@ -136,6 +156,14 @@
                     {
                         this.canvas.Children.Remove(line.InitialCircle);
                         this.canvas.Children.Remove(selectedEllipse);
+
+                        this.Score += 10 * (this.lines.Keys.Count + 1);
+
+                        this.score.Text = $"Score: {this.Score}";
+                    }
+                    else
+                    {
+                        this.Score -= 10;
                     }
                 }
             }
